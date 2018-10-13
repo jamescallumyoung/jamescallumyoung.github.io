@@ -3,7 +3,7 @@ CSS code released under the following license:
 
 The ISC License
 
-Copyright (c) Isaac Z. Schlueter
+Copyright (c) Isaac Z. Schlueterthisishappening@r3pi
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -20,11 +20,13 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 * { font-family:Triplicate T4, monospace; font-size:1em; border:0; margin:0; padding:0; list-style:none; font-weight:normal; }
 h1, h2, h3, h4, h5, h6, ul, ol, p, pre, li { margin-bottom:1em }
-strong, b { font-weight: bold }
-em, i { font-style: italic }
 hr::before { display: block; height: 2em; content: "----"; color: #f0f }
-strong::before, strong::after, b::before, b::after { content: "**" }
-em::before, em::after, i::before, i::after { content: "_" }
+
+.bold { font-weight: bold }
+.bold::before, .bold::after { content: "**" }
+
+.italic { font-style: italic }
+.italic::before, .italic::after { content: "_" }
 
 /* without ::nth-line(n)::before, can't make this look like most blockquotes */
 blockquote::after, blockquote::before { content: ">>" }
@@ -49,8 +51,8 @@ ul li::before { content: "* "; display:block; margin-left:-3ex; color: #fb0; flo
 body { width: 100ex; margin: 1em auto }
 a { text-decoration: none }
 a:hover::before, a:hover::after { color:#f00; text-decoration: underline }
-/* a::before { content: "[" }
-a::after { content: "](" attr(href) ")" } */
+a::before { content: "[" }
+a::after { content: "]" }
 @media print {
   body { width:auto; font-size:10pt }
 }
