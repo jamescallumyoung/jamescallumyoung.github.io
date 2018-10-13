@@ -49,8 +49,8 @@ ul li::before { content: "* "; display:block; margin-left:-3ex; color: #fb0; flo
 body { width: 100ex; margin: 1em auto }
 a { text-decoration: none }
 a:hover::before, a:hover::after { color:#f00; text-decoration: underline }
-a::before { content: "[" }
-a::after { content: "](" attr(href) ")" }
+/* a::before { content: "[" }
+a::after { content: "](" attr(href) ")" } */
 @media print {
   body { width:auto; font-size:10pt }
 }
