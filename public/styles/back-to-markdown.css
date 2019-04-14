@@ -1,9 +1,8 @@
 /*
-CSS code released under the following license:
-
 The ISC License
 
-Copyright (c) Isaac Z. Schlueter
+Copyright (c) Isaac Z. Schlueter and Contributors
+Modifications (c) James Young
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -18,41 +17,57 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
 IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-* { font-family:Triplicate T4, monospace; font-size:1em; border:0; margin:0; padding:0; list-style:none; font-weight:normal; }
-h1, h2, h3, h4, h5, h6, ul, ol, p, pre, li { margin-bottom:1em }
-hr::before { display: block; height: 2em; content: "----"; color: #f0f }
+* { font-family: monospace; font-size:1em; border:0; margin:0; padding:0; list-style:none; font-weight:normal; }
+ul, ol, p, pre, li, td { margin-bottom:0.2em }
 
-.bold { font-weight: bold }
-.bold::before, .bold::after { content: "**" }
+/* body */
+body { width: 80ex; margin: 1em auto }
+@media print { body { width:auto; font-size:10pt } }
 
-.italic { font-style: italic }
-.italic::before, .italic::after { content: "_" }
+/* hr */
+/*hr::before { display: block; height: 2em; content: "----"; color: #f0f }*/
 
-/* without ::nth-line(n)::before, can't make this look like most blockquotes */
-blockquote::after, blockquote::before { content: ">>" }
+/* bold */
+/*.bold { font-weight: bold }*/
+/*.bold::before, .bold::after { content: "**" }*/
 
-blockquote, pre, code { background: #fafafa; color:#000 }
-pre { overflow:auto }
-pre::before, pre::after { content:"```"; display: block }
-code::before, code::after { content: "`"; background: #fff }
-pre code::before, pre code::after { content: "" }
-ol li { margin-left: 4ex; }
-ul li { margin-left: 3ex; }
-ol li { list-style: decimal outside }
-h1, h2, h3, h4, h5, h6 { color:#900; margin-top: 2em }
+/* italic */
+/*.italic { font-style: italic }*/
+/*.italic::before, .italic::after { content: "_" }*/
+
+/* small */
+.sm { font-size: 85% } /* jy */
+
+/* blockquote, pre, code */
+/*blockquote, pre, code { background: #fafafa; color:#000 }*/
+/*blockquote::after, blockquote::before { content: ">>" }*/
+/*pre { overflow:auto }*/
+/*pre::before, pre::after { content:"```"; display: block }*/
+/*code::before, code::after { content: "`"; background: #fff }*/
+/*pre code::before, pre code::after { content: "" }*/
+
+/* list/table */
+ul li, tr { margin-left: 3ex; }
+/*ol li { margin-left: 4ex; list-style: decimal outside }*/
+ul li::before { content: "*\00a0 "; display:block; margin-left:-3ex; color: #fb0; float:left }
+tr::before { content: "*\00a0 "; display:block; color: #fb0; float:left }
+tr { white-space: nowrap; vertical-align: top }
+td.fold { white-space: normal }
+td.end-date::before { content: "\00a0-\00a0"; }
+td.end-date::after { content: ":\00a0"; }
+
+/* headers */
+h1, h2, h3, h4, h5, h6 { color:#900; margin-bottom:1em; margin-top: 1em }
 h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { background: #fff }
 h1::before { content: "# "; color:#09a }
 h2::before { content: "## "; color:#09a }
-h3::before { content: "### "; color:#09a }
-h4::before { content: "#### "; color:#09a }
-h5::before { content: "##### "; color:#09a }
-h6::before { content: "###### "; color:#09a }
-ul li::before { content: "* "; display:block; margin-left:-3ex; color: #fb0; float:left }
-body { width: 100ex; margin: 1em auto }
+/*h3::before { content: "### "; color:#09a }*/
+/*h4::before { content: "#### "; color:#09a }*/
+/*h5::before { content: "##### "; color:#09a }*/
+/*h6::before { content: "###### "; color:#09a }*/
+
+/* links */
 a { text-decoration: none }
 a:hover::before, a:hover::after { color:#f00; text-decoration: underline }
 a::before { content: "[" }
 a::after { content: "]" }
-@media print {
-  body { width:auto; font-size:10pt }
-}
