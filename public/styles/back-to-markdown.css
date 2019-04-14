@@ -18,7 +18,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 * { font-family: monospace; font-size:1em; border:0; margin:0; padding:0; list-style:none; font-weight:normal; }
-ul, ol, p, pre, li, td { margin-bottom:0.2em }
+ul, ol, p, pre, li, td { margin-bottom:0.4em }
 
 /* body */
 body { width: 80ex; margin: 1em auto }
@@ -35,8 +35,11 @@ body { width: 80ex; margin: 1em auto }
 /*.italic { font-style: italic }*/
 /*.italic::before, .italic::after { content: "_" }*/
 
-/* small */
-.sm { font-size: 85% } /* jy */
+/* small text */
+.sm { font-size: 85% }
+
+/* smaller header top margin */
+.smh { margin-top: 1em }
 
 /* blockquote, pre, code */
 /*blockquote, pre, code { background: #fafafa; color:#000 }*/
@@ -57,7 +60,7 @@ td.end-date::before { content: "\00a0-\00a0"; }
 td.end-date::after { content: ":\00a0"; }
 
 /* headers */
-h1, h2, h3, h4, h5, h6 { color:#900; margin-bottom:1em; margin-top: 1em }
+h1, h2, h3, h4, h5, h6 { color:#900; margin-bottom:1em; margin-top: 2em }
 h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { background: #fff }
 h1::before { content: "# "; color:#09a }
 h2::before { content: "## "; color:#09a }
