@@ -74,3 +74,10 @@ a { text-decoration: none }
 a:hover::before, a:hover::after { color:#f00; text-decoration: underline }
 a::before { content: "[" }
 a::after { content: "]" }
+
+@media screen and (prefers-color-scheme: dark) {
+    body { color:#cccccc; background-color:#2d2d2d }
+    h1, h2, h3, h4, h5, h6 { color:#66cccc }
+    ul li::before, tr::before { color:#6699cc }
+    a { color:#99cc99 }
+}
