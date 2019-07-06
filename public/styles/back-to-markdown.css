@@ -71,7 +71,6 @@ h2::before { content: "## "; color:#09a }
 
 /* links */
 a { text-decoration: none }
-a:hover::before, a:hover::after { color:#f00; text-decoration: underline }
 a::before { content: "[" }
 a::after { content: "]" }
 
