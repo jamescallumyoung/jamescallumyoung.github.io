@@ -1,13 +1,22 @@
-# This file is a template, and might need editing before it works on your project.
-# Full project: https://gitlab.com/pages/plain-html
+default:
+  image: node:lts
+
 pages:
   stage: deploy
   script:
-  - mkdir .public
-  - cp -r * .public
-  - mv .public public
+    - mv src public
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - master
+    - master
+
+ipfs:
+  stage: deploy
+  script:
+  - pwd
+  - ls -a
+  - ls -a src
+  - npm i -g @jych/pin-to-ipfs
+  - cd src
+  - pin-to-ipfs --key=$PINATA_API_KEY --secret=$PINATA_API_SECRET --dir=$(pwd)
