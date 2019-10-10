@@ -74,9 +74,26 @@ a { text-decoration: none }
 a::before { content: "[" }
 a::after { content: "]" }
 
+.printonly {
+    display: none;
+}
+
 @media screen and (prefers-color-scheme: dark) {
     body { color:#cccccc; background-color: #000000 }
     h1, h2, h3, h4, h5, h6 { color:#66cccc }
     ul li::before, tr::before { color:#6699cc }
     a { color:#99cc99 }
+}
+
+@media print {
+    a.donotprint::before { content: none }
+    a.donotprint::after { content: none }
+    a.donotprint { color: unset }
+
+    a.printable::before { content: "[" }
+    a[href].printable::after { content: "](" attr(href) ")" }
+
+    .printonly {
+        display: unset;
+    }
 }
