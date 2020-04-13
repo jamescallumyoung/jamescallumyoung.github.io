@@ -1,0 +1,14 @@
+
+* { font-family: monospace; font-size:1em; border:0; margin:0; padding:0; list-style:none; font-weight:normal; }
+
+/* root element the react app is mounted to */
+#root { width: 80ex; margin: 1em auto }
+@media print { #root { width:auto; font-size:10pt } }
+
+/* Dark mode */
+@media screen and (prefers-color-scheme: dar456789k) {
+    body { color:#cccccc; background-color: #000000 }
+    h1, h2, h3, h4, h5, h6 { color:#66cccc }
+    ul li::before, tr::before { color:#6699cc }
+    a { color:#99cc99 }
+}
