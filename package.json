@@ -7,6 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "build": "mustache src/data.json src/index.mustache > src/site.html",
+    "build:prod": "mustache src/data.json src/index.mustache > src/index.html",
     "pretty:check": "prettier --check ./src",
     "pretty:fix": "prettier --write ./src"
   },

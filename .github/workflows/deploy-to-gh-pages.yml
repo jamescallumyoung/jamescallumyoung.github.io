@@ -14,6 +14,20 @@ jobs:
           # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the
           # deployment to work correctly.
 
+      - name: Install yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+
+      - name: Install Build Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: 'yarn build:prod'
+
+      - name: Remove Template Files
+        run: rm -rf src/data.json src/index.mustache
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

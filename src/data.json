@@ -1,0 +1,69 @@
+{
+  "email": "hello@jamesyoung.ch",
+  "smallLinks": [
+    {
+      "display": "Keybase",
+      "href": "https://keybase.io/jych"
+    },
+    {
+      "display": "PGP Public Key",
+      "href": "publickey.asc"
+    }
+  ],
+  "about": [
+    "Software Engineer at <a href=\"https://3ap.ch\">3AP</a>.",
+    "Hails from Yorkshire, England, UK.",
+    "Resides in Zurich, Switzerland."
+  ],
+  "whatIDo": [
+    "Programming <a rel=\"me\" href=\"https://github.com/jamescallumyoung\">GitHub</a> <a rel=\"me\" href=\"https://www.npmjs.com/~jych\">NPM</a>",
+    "Tabletop gaming, Boardgames, D&D",
+    "Other nerdy stuff"
+  ],
+  "workHistory": [
+    {
+      "startDate": "2020/01",
+      "endDate": "present",
+      "title": "Software Engineer",
+      "companyName": "3AP"
+    },
+    {
+      "startDate": "2018/02",
+      "endDate": "2019/11",
+      "title": "Middleware Developer",
+      "companyName": "R3PI"
+    },
+    {
+      "startDate": "2017/03",
+      "endDate": "2017/08",
+      "title": "Backend Developer",
+      "companyName": "The Distance"
+    },
+    {
+      "startDate": "2016",
+      "endDate": "2017/03",
+      "title": "Freelance Software Engineer"
+    },
+    {
+      "startDate": "2014",
+      "endDate": "2015",
+      "title": "Lab Assistant (Software Eng.)",
+      "companyName": "University of Northampton"
+    }
+  ],
+  "education": [
+    {
+      "school": "University of Northampton",
+      "subject": "Software Engineering",
+      "grade": "First-class honours (First, 1:1)"
+    },
+    {
+      "school": "Wakefield College",
+      "subject": "Engineering, then Digital Media",
+      "grade": "Distinction-Merit"
+    }
+  ],
+  "footers": [
+    "More info on <a rel=\"me\" href=\"https://linkedin.com/in/jamescallumyoung\">LinkedIn</a>"
+  ]
+}
