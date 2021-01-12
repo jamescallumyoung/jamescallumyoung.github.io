@@ -1,4 +1,32 @@
 {
+  "meta": {
+    "links": [
+      {
+        "rel": "canonical",
+        "title": "canonical",
+        "href": "https://jamesyoung.ch",
+        "type": "text/html"
+      },
+      {
+        "rel": "alternate",
+        "title": "http mirror",
+        "href": "https://jamescallumyoung.com",
+        "type": "text/html"
+      },
+      {
+        "rel": "alternate",
+        "title": "ipfs mirror",
+        "href": "ipns://jamesyoung.ch",
+        "type": "text/html"
+      },
+      {
+        "rel": "alternate",
+        "title": "ens mirror",
+        "href": "http://jamesyoung.eth",
+        "type": "text/html"
+      }
+    ]
+  },
   "email": "hello@jamesyoung.ch",
   "smallLinks": [
     {
