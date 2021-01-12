@@ -1,19 +1,16 @@
-/* TEAM */
+/* ABOUT ME */
 
-	Made by: James Young
-	Contact: hello [at] jamesyoung.ch
-	Located: Zürich, CH
-	From: Yorkshire, UK
+    James Young
+    Contact: hello [at] jamesyoung.ch
+    PGP Key: 6d5ebc8d34d0291f2f9eae454f34a2e174fdd820
 
 /* SITE */
 
 	Language: English
-	Doctype: HTML5
 
 	This site is mirrored and available via various alternate protocols:
 
-	Original: https://jamesyoung.ch
-	Mirror: https://jamescallumyoung.com
-	via IPFS: ipns://ipfs.jamesyoung.ch
-	via IPFS (via a gateway): https://ipfs.jamesyoung.ch
-	via Gopher: gopher://gopher.jamesyoung.ch
+	    Original: https://jamesyoung.ch
+	    via HTTP: https://jamescallumyoung.com
+        via IPFS: ipns://jamesyoung.ch
+        via ENS:  https://jamesyoung.eth
