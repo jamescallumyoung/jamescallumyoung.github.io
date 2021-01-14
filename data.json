@@ -9,19 +9,25 @@
       },
       {
         "rel": "alternate",
-        "title": "http mirror",
+        "title": "HTTP mirror",
         "href": "https://jamescallumyoung.com",
         "type": "text/html"
       },
       {
         "rel": "alternate",
-        "title": "ipfs mirror",
+        "title": "IPFS mirror",
         "href": "ipns://jamesyoung.ch",
         "type": "text/html"
       },
       {
         "rel": "alternate",
-        "title": "ens mirror",
+        "title": "ENS mirror",
+        "href": "http://jamesyoung.eth",
+        "type": "text/html"
+      },
+      {
+        "rel": "alternate",
+        "title": "TOR mirror",
         "href": "http://jamesyoung.eth",
         "type": "text/html"
       }

@@ -6,11 +6,13 @@
 
 /* SITE */
 
-	Language: English
+    Language: English
 
-	This site is mirrored and available via various alternate protocols:
+    This site is mirrored and available via various alternate protocols:
 
-	    Original: https://jamesyoung.ch
-	    via HTTP: https://jamescallumyoung.com
+        Original: https://jamesyoung.ch
+        via HTTP: https://jamescallumyoung.com
         via IPFS: ipns://jamesyoung.ch
         via ENS:  https://jamesyoung.eth
+        via TOR:  https://3axab7aigxdlxd43.onion (self signed cert)
+
