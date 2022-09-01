@@ -36,10 +36,6 @@
   "email": "hello@jamesyoung.ch",
   "smallLinks": [
     {
-      "display": "Keybase",
-      "href": "https://keybase.io/jych"
-    },
-    {
       "display": "PGP Public Key",
       "href": "publickey.asc"
     }
