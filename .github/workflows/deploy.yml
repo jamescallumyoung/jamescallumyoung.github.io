@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages & IPFS
 on:
   push:
     branches:
@@ -23,15 +23,23 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build
-        run: 'yarn build:prod'
+        run: "yarn build:prod"
 
       - name: Remove Template Files
         run: rm -rf src/data.json src/index.mustache
 
-      - name: Deploy 🚀
+      - name: Deploy to GH Pages 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: src # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch.
+
+      - name: Pin to IPFS 🚀
+        uses: jamescallumyoung/pinata-publish-action@v0.1.1
+        with:
+          pinata-api-key: ${{ secrets.PINATA_API_KEY }}
+          pinata-secret-api-key: ${{ secrets.PINATA_API_SECRET }}
+          file-to-pin: src # Pin the whole src dir
+
