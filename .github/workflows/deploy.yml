@@ -37,9 +37,22 @@ jobs:
           CLEAN: true # Automatically remove deleted files from the deploy branch.
 
       - name: Pin to IPFS 🚀
+        id: pin
         uses: jamescallumyoung/pinata-publish-action@v0.1.1
         with:
           pinata-api-key: ${{ secrets.PINATA_API_KEY }}
           pinata-secret-api-key: ${{ secrets.PINATA_API_SECRET }}
           file-to-pin: src # Pin the whole src dir
 
+      - name: Get the IPFS pinned hash
+        run: echo "The hash of the pin is ${{ steps.pin.outputs.hash }}"
+
+      - name: Update DNSLink
+        uses: ReSource-Network/cloudlfare-dnslink-update@v1.2
+        env:
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+          RECORD_DOMAIN: ${{ secrets.IPNS_DOMAIN_NAME }}
+          RECORD_NAME: ${{ secrets.IPNS_DNSLINK_RECORD_NAME }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        with:
+          cid: ${{ steps.pin.outputs.hash }}
