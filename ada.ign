@@ -1,0 +1,27 @@
+{
+  "ignition": {
+    "version": "3.4.0"
+  },
+  "passwd": {
+    "users": [
+      {
+        "name": "ada",
+        "sshAuthorizedKeys": [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICswtcs9katJaGzwiWWot7BWx596MjHNjo8K7zxONpXV"
+        ]
+      }
+    ]
+  },
+  "storage": {
+    "files": [
+      {
+        "path": "/etc/hostname",
+        "contents": {
+          "compression": "",
+          "source": "data:,ada.lan"
+        },
+        "mode": 420
+      }
+    ]
+  }
+}
