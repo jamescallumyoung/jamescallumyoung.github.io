@@ -29,20 +29,25 @@
     }
   ],
   "about": [
-    "Software Engineer at <a href=\"https://3ap.ch\">3AP</a>.",
-    "Hails from Yorkshire, England, UK.",
-    "Resides in Zurich, Switzerland."
+    "Senior Software Engineer at <a href=\"https://grapehealth.ch\">grape health</a>.",
+    "From Yorkshire, UK.",
+    "Lives in Zurich, Switzerland."
   ],
   "whatIDo": [
-    "Programming <a rel=\"me\" href=\"https://github.com/jamescallumyoung\">GitHub</a> <a rel=\"me\" href=\"https://www.npmjs.com/~jych\">NPM</a>",
-    "Social <a rel=\"me\" href=\"https://fosstodon.org/@jych\">Mastodon</a>",
-    "Tabletop gaming, Boardgames, D&D",
-    "Other nerdy stuff"
+    "Programming <a rel=\"me\" href=\"https://github.com/jamescallumyoung\">GitHub</a> <a rel=\"me\" href=\"https://www.npmjs.com/~jych\">NPM</a>.",
+    "Tabletop gaming, Boardgames, D&D.",
+    "Other nerdy stuff."
   ],
   "workHistory": [
     {
-      "startDate": "2020/01",
+      "startDate": "2024/09",
       "endDate": "present",
+      "title": "Senior Software Engineer",
+      "companyName": "grape health"
+    },
+    {
+      "startDate": "2020/01",
+      "endDate": "2024/07",
       "title": "Software Engineer",
       "companyName": "3AP"
     },
@@ -50,10 +55,10 @@
       "startDate": "2018/02",
       "endDate": "2019/11",
       "title": "Middleware Developer",
-      "companyName": "R3PI"
+      "companyName": "Solera R3PI"
     },
     {
-      "startDate": "2017/03",
+      "startDate": "2017/04",
       "endDate": "2017/08",
       "title": "Backend Developer",
       "companyName": "The Distance"
@@ -66,7 +71,7 @@
     {
       "startDate": "2014",
       "endDate": "2015",
-      "title": "Lab Assistant (Software Eng.)",
+      "title": "Teaching Assistant",
       "companyName": "University of Northampton"
     }
   ],
