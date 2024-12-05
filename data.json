@@ -29,7 +29,7 @@
     }
   ],
   "about": [
-    "Senior Software Engineer at <a href=\"https://grapehealth.ch\">grape health</a>.",
+    "Senior Software Engineer. Looking for work.",
     "From Yorkshire, UK.",
     "Lives in Zurich, Switzerland."
   ],
@@ -41,7 +41,7 @@
   "workHistory": [
     {
       "startDate": "2024/09",
-      "endDate": "present",
+      "endDate": "2024/12",
       "title": "Senior Software Engineer",
       "companyName": "grape health"
     },
