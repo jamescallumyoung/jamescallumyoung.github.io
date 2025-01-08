@@ -5,7 +5,7 @@
   "passwd": {
     "users": [
       {
-        "name": "ada",
+        "name": "core",
         "sshAuthorizedKeys": [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICswtcs9katJaGzwiWWot7BWx596MjHNjo8K7zxONpXV"
         ]
@@ -21,6 +21,15 @@
           "source": "data:,ada.lan"
         },
         "mode": 420
+      }
+    ]
+  },
+  "systemd": {
+    "units": [
+      {
+        "contents": "[Unit]\nDescription=Layer k8s packages with rpm-ostree\nWants=network-online.target\nAfter=network-online.target\n# We run before `zincati.service` to avoid conflicting rpm-ostree\n# transactions.\nBefore=zincati.service\nConditionPathExists=!/var/lib/%N.stamp\n\n[Service]\nType=oneshot\nRemainAfterExit=yes\n# `--allow-inactive` ensures that rpm-ostree does not return an error if the package is already installed.\n# This is useful if the package is added to the root image in a future Fedora CoreOS release as it will prevent\n# the service from failing.\nExecStart=/usr/bin/rpm-ostree install -y --allow-inactive kubelet kubeadm kubectl cri-o\nExecStart=/bin/touch /var/lib/%N.stamp\nExecStart=/bin/systemctl --no-block reboot\n\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": true,
+        "name": "rpm-ostree-install-k8s-control-plane.service"
       }
     ]
   }
