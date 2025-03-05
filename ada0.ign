@@ -1,0 +1,35 @@
+{
+  "ignition": {
+    "version": "3.4.0"
+  },
+  "passwd": {
+    "users": [
+      {
+        "name": "core",
+        "sshAuthorizedKeys": [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICswtcs9katJaGzwiWWot7BWx596MjHNjo8K7zxONpXV"
+        ]
+      }
+    ]
+  },
+  "storage": {
+    "files": [
+      {
+        "path": "/etc/hostname",
+        "contents": {
+          "compression": "",
+          "source": "data:,ada0.lan"
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/rancher/k3s/config.yaml",
+        "contents": {
+          "compression": "",
+          "source": "data:,write-kubeconfig-mode%3A%20%220644%22%0Anode-name%3A%20%22ada0%22%0Atls-san%3A%20%22ada0.lan%22%0Acluster-init%3A%20true%0Atoken%3A%20L3PF5nMfAZ9dZFbt%0A"
+        },
+        "mode": 420
+      }
+    ]
+  }
+}
