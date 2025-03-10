@@ -25,8 +25,16 @@
       {
         "path": "/etc/rancher/k3s/config.yaml",
         "contents": {
+          "compression": "gzip",
+          "source": "data:;base64,H4sIAAAAAAAC/yzNsarDMAyF4V1PYbwruZemhRo6dMnUQudsTqwEE0cGWaGvXwwez+GD/ytRCfdzpiXzGjc8ciBn7N9tGCxwDoTsj/r44P8taCpYPLfdJc8WlnQWJcHIUZ1ROQk078TOvC6f8crv9TndwzTOCjWUSNHL5sAYNBaxhUOUR0+69NUIk1LpG+8q6YKFXwAAAP//iCkiTK4AAAA="
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/kubernetes/kubelet.conf.d/001-kubelet.conf",
+        "contents": {
           "compression": "",
-          "source": "data:,write-kubeconfig-mode%3A%20%220644%22%0Anode-name%3A%20%22ada1%22%0Atls-san%3A%20%22ada1.lan%22%0Acluster-init%3A%20true%0Atoken%3A%20L3PF5nMfAZ9dZFbt%0A"
+          "source": "data:,apiVersion%3A%20kubelet.config.k8s.io%2Fv1beta1%0Akind%3A%20KubeletConfiguration%0AshutdownGracePeriod%3A%2045%0AshutdownGracePeriodCriticalPods%3A%2015%0A"
         },
         "mode": 420
       }
