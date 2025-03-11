@@ -25,8 +25,8 @@
       {
         "path": "/etc/rancher/k3s/config.yaml.d/00_common.yaml",
         "contents": {
-          "compression": "gzip",
-          "source": "data:;base64,H4sIAAAAAAAC/yzNMcuDQAyA4f1+RbhvjvJROlTo0MWphc5uOROtqDm4xEL/fZE6vvDA+wd9Xtes0GcdptFgM2FIH0jZX0CjqBuQMpiUtxQLmllQaZUGIjH9x+CLoZEeXS2kMXieRRu4n57tWR/Drbtw1yYP85ZkEUcqYxMAECLi74w8lWst3te7KSouVh+82knFMXwDAAD//7fLcfquAAAA"
+          "compression": "",
+          "source": "data:,%23%20common%20configs%20used%20by%20both%20agents%20and%20servers%0Anode-name%3A%20%22ada1%22%0Atoken%3A%20L3PF5nMfAZ9dZFbt%0Akubelet-arg%3A%0A%20%20-%20%22--config-dir%3D%2Fetc%2Fkubernetes%2Fkubelet.conf.d%22%0A"
         },
         "mode": 420
       },
@@ -34,7 +34,7 @@
         "path": "/etc/rancher/k3s/server-config.yaml",
         "contents": {
           "compression": "gzip",
-          "source": "data:;base64,H4sIAAAAAAAC/1TMPQ6DMAxH8T2n+AtmmkpFHbgNDaZY+bBkO624fQemju8NvxFJ2s5vwy4KI/2QoslGFsa/hB3SywY7a+GW4Qcbdi4EF0TyFHVt6SCN+WHxQm/nWkv4KjtNub/oulOVjRYM9+c8DyGVbk46cWNf4Nop/AIAAP//4bBD/JQAAAA="
+          "source": "data:;base64,H4sIAAAAAAAC/1TMsY6DMAyA4T1PYYU55E6HbuBt0sQUC+NIttOKt+/A1PH/h2+C2mWjp8HWFQz1hQrSG1qYvhJs74Mb2HUyyQG+k8FGjOAdMnrNWqTuqPn4s3yj81VODm8lx3SMB943nb3hCvHnf1liqDzMURMJ+QquA4OzJSuyQiyt/M5cJIZPAAAA//93FMf0qAAAAA=="
         },
         "mode": 420
       },
