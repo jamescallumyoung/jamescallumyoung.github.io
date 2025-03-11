@@ -23,10 +23,26 @@
         "mode": 420
       },
       {
-        "path": "/etc/rancher/k3s/config.yaml",
+        "path": "/etc/rancher/k3s/config.yaml.d/00_common.yaml",
         "contents": {
           "compression": "gzip",
-          "source": "data:;base64,H4sIAAAAAAAC/yzNsarDMAyF4V1PYbwruZemhRo6dMnUQudsTqwEE0cGWaGvXwwez+GD/ytRCfdzpiXzGjc8ciBn7N9tGCxwDoTsj/r44P8taCpYPLfdJc8WlnQWJcHIUZ1ROQk078TOvC6f8crv9TndwzTOCjWUSNHL5sAYNBaxhUOUR0+69NUIk1LpG+8q6YKFXwAAAP//iCkiTK4AAAA="
+          "source": "data:;base64,H4sIAAAAAAAC/yzNMcuDQAyA4f1+RbhvjvJROlTo0MWphc5uOROtqDm4xEL/fZE6vvDA+wd9Xtes0GcdptFgM2FIH0jZX0CjqBuQMpiUtxQLmllQaZUGIjH9x+CLoZEeXS2kMXieRRu4n57tWR/Drbtw1yYP85ZkEUcqYxMAECLi74w8lWst3te7KSouVh+82knFMXwDAAD//7fLcfquAAAA"
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/rancher/k3s/server-config.yaml",
+        "contents": {
+          "compression": "gzip",
+          "source": "data:;base64,H4sIAAAAAAAC/1TMPQ6DMAxH8T2n+AtmmkpFHbgNDaZY+bBkO624fQemju8NvxFJ2s5vwy4KI/2QoslGFsa/hB3SywY7a+GW4Qcbdi4EF0TyFHVt6SCN+WHxQm/nWkv4KjtNub/oulOVjRYM9+c8DyGVbk46cWNf4Nop/AIAAP//4bBD/JQAAAA="
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/rancher/k3s/agent-config.yaml",
+        "contents": {
+          "compression": "",
+          "source": "data:;base64,IyBjb25maWdzIGZvciBhZ2VudCBub2RlcwojIGFnZW50IG5vZGVzIHNob3VsZCBzeW1saW5rIHRoaXMgZmlsZSB0byAvZXRjL3JhbmNoZXIvazNzL2NvbmZpZy55YW1sCnNlcnZlcjogaHR0cHM6Ly9hZGEwLmxhbjo2NDQzCg=="
         },
         "mode": 420
       },
