@@ -2,6 +2,7 @@
 #   github.token - set by GH
 #   STORACHA_KEY - created by `w3 key create --json`
 #   STORACHA_PROOF - created by `w3 delegation create --base64`
+#   PINATA_JWT - exported as a base64 encoded JWT from the Pinata dashboard
 
 name: Deploy to GitHub Pages & IPFS
 on:
@@ -90,3 +91,5 @@ jobs:
           storacha-key: ${{ secrets.STORACHA_KEY }}
           storacha-proof: ${{ secrets.STORACHA_PROOF }}
           github-token: ${{ github.token }}
+          pinata-jwt-token: ${{ secrets.PINATA_JWT }}
+          pinata-pinning-url: 'https://api.pinata.cloud/psa'
