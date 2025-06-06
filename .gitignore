@@ -118,3 +118,5 @@ dist
 
 # End of https://www.toptal.com/developers/gitignore/api/node
 
+.w3_key.json
+.w3_proof
