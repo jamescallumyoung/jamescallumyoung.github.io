@@ -4,10 +4,10 @@ on:
     branches:
       - main
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -30,29 +30,32 @@ jobs:
       - name: Remove Template Files
         run: rm -rf src/data.json src/index.mustache
 
+      - name: Move Output to Dist
+        run: mv src dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-dist
+          path: dist
+          retention-days: 1
+
+  deploy-gh-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-dist
+          path: dist
+
       - name: Deploy to GH Pages 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: src # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch.
-
-      - name: Pin to IPFS 🚀
-        id: pin
-        uses: jamescallumyoung/pinata-publish-action@v0.1.1
-        with:
-          pinata-api-key: ${{ secrets.PINATA_API_KEY }}
-          pinata-secret-api-key: ${{ secrets.PINATA_API_SECRET }}
-          file-to-pin: src # Pin the whole src dir
-
-      - name: Get the IPFS pinned hash
-        run: echo "The hash of the pin is ${{ steps.pin.outputs.hash }}"
-
-      - name: Update DNSLink
-        uses: decooio/cloudflare-dnslink-action@v1.0.0
-        with:
-          name: ${{ secrets.IPNS_DOMAIN_NAME }}
-          cid: ${{ steps.pin.outputs.hash }}
-          token: ${{ secrets.CLOUDFLARE_TOKEN }}
-          zone: ${{ secrets.CLOUDFLARE_ZONE_ID }}
