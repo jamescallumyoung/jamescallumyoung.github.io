@@ -114,6 +114,7 @@ jobs:
       - name: Update DNSLink Record in Cloudflare DNS
         uses: ipfs/dnslink-action@v0.1
         with:
+          github-token: ${{ github.token }}
           cid: ${{ steps.deploy.outputs.cid }} # The `_dnslink=...` string is automatically constructed from the CID
           dnslink_domain: 'jamesyoung.ch'
           cf_record_id: ${{ secrets.CLOUDFLARE_DNS_RECORD_ID }}
