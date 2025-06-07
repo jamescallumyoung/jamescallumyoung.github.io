@@ -2,7 +2,9 @@
 #   github.token - set by GH
 #   STORACHA_KEY - created by `w3 key create --json`
 #   STORACHA_PROOF - created by `w3 delegation create --base64`
-#   PINATA_JWT - exported as a base64 encoded JWT from the Pinata dashboard
+#   PINATA_JWT - exported as a JWT from the Pinata dashboard
+#   FILEBASE_KEY - exported from the Filebase dashboard
+#   FILEBASE_SECRET - as above
 
 name: Deploy to GitHub Pages & IPFS
 on:
@@ -87,9 +89,15 @@ jobs:
         id: deploy
         uses: ipfs/ipfs-deploy-action@v1
         with:
+          github-token: ${{ github.token }}
           path-to-deploy: dist
+          # storacha
           storacha-key: ${{ secrets.STORACHA_KEY }}
           storacha-proof: ${{ secrets.STORACHA_PROOF }}
-          github-token: ${{ github.token }}
+          # pinate
           pinata-jwt-token: ${{ secrets.PINATA_JWT }}
           pinata-pinning-url: 'https://api.pinata.cloud/psa'
+          # filebase
+          filebase-bucket: 'jamesyoung-ch'
+          filebase-access-key: ${{ secrets.FILEBASE_KEY }}
+          filebase-secret-key: ${{ secrets.FILEBASE_SECRET }}
