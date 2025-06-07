@@ -5,6 +5,9 @@
 #   PINATA_JWT - exported as a JWT from the Pinata dashboard
 #   FILEBASE_KEY - exported from the Filebase dashboard
 #   FILEBASE_SECRET - as above
+#   CLOUDFLARE_DNS_RECORD_ID - Cloudflare assigns an ID to every DNS record. copied from the Cloudflare API
+#   CLOUDFLARE_ZONE_ID - Cloudflare refers to each domain as a "Zone". They are assigned IDs by Cloudflare. copied from the Cloudflare dashboard
+#   CLOUDFLARE_AUTH_TOKEN - an API Token with the scope dns:edit for the jamesyoung.ch Zone. copied from the Cloudflare dashboard
 
 name: Deploy to GitHub Pages & IPFS
 on:
@@ -107,3 +110,21 @@ jobs:
           filebase-bucket: 'jamesyoung-ch'
           filebase-access-key: ${{ secrets.FILEBASE_KEY }}
           filebase-secret-key: ${{ secrets.FILEBASE_SECRET }}
+
+      - name: Update DNSLink Record in Cloudflare DNS
+        uses: ipfs/dnslink-action@v0.1
+        with:
+          cid: ${{ steps.deploy.outputs.cid }} # The `_dnslink=...` string is automatically constructed from the CID
+          dnslink_domain: 'jamesyoung.ch'
+          cf_record_id: ${{ secrets.CLOUDFLARE_DNS_RECORD_ID }}
+          cf_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          cf_auth_token: ${{ secrets.CLOUDFLARE_AUTH_TOKEN }}
+
+#      - name: Update DNSLink record
+#        run: >
+#          curl -vv https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/dns_records/${{ secrets.CLOUDFLARE_DNS_RECORD_ID }}
+#          -H 'X-AUTH-EMAIL: ${{ secrets.CLOUDFLARE_AUTH_EMAIL }}'
+#          -H 'X-AUTH-KEY: ${{ secrets.CLOUDFLARE_AUTH_KEY }}'
+#          -X PATCH
+#          -d '{ "content": "${{ steps.deploy.outcome.cid }}", "name": "_dnslink", "proxied": false, "ttl": 1, "type": "TXT" }'
+#          | jq
