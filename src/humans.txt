@@ -4,11 +4,15 @@
     Contact: hello [at] jamesyoung.ch
     PGP Key: 6d5ebc8d34d0291f2f9eae454f34a2e174fdd820
 
-/* SITE */
+/* SITE DETAILS */
 
     Language: English
 
-    This site is mirrored and available via various alternate protocols:
+/* SITE URLS */
 
-        Original: https://jamesyoung.ch
-        via HTTP: https://jamescallumyoung.com
+    This site's canonical URL is https://jamesyoung.ch
+
+    This site is also available at:
+
+        HTTP Mirror:    https://jamescallumyoung.com
+        IPFS:           ipns://jamesyoung.ch
