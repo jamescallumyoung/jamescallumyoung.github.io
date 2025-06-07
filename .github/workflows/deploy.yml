@@ -120,12 +120,3 @@ jobs:
           cf_record_id: ${{ secrets.CLOUDFLARE_DNS_RECORD_ID }}
           cf_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           cf_auth_token: ${{ secrets.CLOUDFLARE_AUTH_TOKEN }}
-
-#      - name: Update DNSLink record
-#        run: >
-#          curl -vv https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/dns_records/${{ secrets.CLOUDFLARE_DNS_RECORD_ID }}
-#          -H 'X-AUTH-EMAIL: ${{ secrets.CLOUDFLARE_AUTH_EMAIL }}'
-#          -H 'X-AUTH-KEY: ${{ secrets.CLOUDFLARE_AUTH_KEY }}'
-#          -X PATCH
-#          -d '{ "content": "${{ steps.deploy.outcome.cid }}", "name": "_dnslink", "proxied": false, "ttl": 1, "type": "TXT" }'
-#          | jq
