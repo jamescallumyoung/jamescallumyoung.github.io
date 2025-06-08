@@ -21,13 +21,39 @@
       }
     ]
   },
-  "email": "hello@jamesyoung.ch",
-  "smallLinks": [
-    {
-      "display": "PGP Public Key",
-      "href": "publickey.asc"
-    }
-  ],
+  "header": {
+    "title": "James Young",
+    "protocols": [
+      {
+        "rel": "canonical",
+        "display": "HTTPS",
+        "href": "https://jamesyoung.ch",
+        "type": "text/html"
+      },
+      {
+        "rel": "alternate",
+        "display": "IPFS",
+        "href": "ipns://jamesyoung.ch",
+        "type": "text/html"
+      }
+    ]
+  },
+  "links": {
+    "bigLinks": [
+      {
+        "rel": "me",
+        "display": "hello@jamesyoung.ch",
+        "href": "mailto:hello@jamesyoung.ch"
+      },
+      {
+        "rel": "me",
+        "display": "PGP Public Key",
+        "href": "publickey.asc",
+        "type": "application/pgp-keys"
+      }
+    ],
+    "smallLinks": []
+  },
   "about": [
     "Senior Software Engineer.",
     "From Yorkshire, UK.",
@@ -93,7 +119,7 @@
       "grade": "Distinction-Merit"
     }
   ],
-  "footers": [
+  "footer": [
     "More info on <a rel=\"me\" href=\"https://linkedin.com/in/jamescallumyoung\">LinkedIn</a>."
   ]
 }

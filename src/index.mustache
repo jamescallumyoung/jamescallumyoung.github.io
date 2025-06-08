@@ -19,28 +19,47 @@
   <base target="_blank" />
 </head>
 <body>
-  <h1 id="name">James Young</h1>
+  <header class="flex-between">
+  {{#header}}
+    <h1 id="name">{{title}}</h1>
+    <span>
+      {{#protocols}}
+      <a rel="{{{rel}}}" href="{{{href}}}" type="{{{type}}}">{{display}}</a>
+      {{/protocols}}
+    </span>
+  {{/header}}
+  </header>
 
-  {{#email}}
-  <a rel="me" href="mailto:{{{.}}}">{{{.}}}</a> <br />
-  {{/email}} {{#smallLinks}}
-  <a rel="me" class="sm" href="{{{href}}}">{{display}}</a>
+  <section id="links">
+  {{#links}}
+  {{#bigLinks}}
+    <a rel="{{{rel}}}" href="{{{href}}}" type="{{{type}}}">{{display}}</a>
+  {{/bigLinks}}
+  {{#smallLinks}}
+    <a class="sm" rel="{{{rel}}}" href="{{{href}}}" type="{{{type}}}">{{display}}</a>
   {{/smallLinks}}
+  {{/links}}
+  </section>
 
+  <section id="about">
   <h2 id="about">About</h2>
   <ul>
     {{#about}}
     <li>{{{.}}}</li>
     {{/about}}
   </ul>
+  </section>
 
+  <section id="what-i-do">
   <h2 id="what">What I Do</h2>
   <ul>
     {{#whatIDo}}
     <li>{{{.}}}</li>
     {{/whatIDo}}
   </ul>
+  </section>
 
+  <section id="work-history">
   <h2 id="work">Work</h2>
   <table>
     {{#workHistory}}
@@ -51,8 +70,10 @@
     </tr>
     {{/workHistory}}
   </table>
+  </section>
 
-  <h2 id="school" class="smh">Education</h2>
+  <section id="education">
+  <h2 id="education">Education</h2>
   <ul>
     {{#education}}
     <li>
@@ -62,9 +83,11 @@
     </li>
     {{/education}}
   </ul>
+  </section>
 
-  <br />
-  {{#footers}}
+  <footer>
+  {{#footer}}
   <p>{{{.}}}</p>
-  {{/footers}}
+  {{/footer}}
+  </footer>
 </body>

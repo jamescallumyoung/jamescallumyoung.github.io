@@ -39,7 +39,7 @@ a {
 /* body */
 body {
   width: 80ex;
-  margin: 1em auto;
+  margin: 0em auto;
 }
 @media print {
   body {
@@ -62,11 +62,6 @@ body {
 /* small text */
 .sm {
   font-size: 85%;
-}
-
-/* smaller header top margin */
-.smh {
-  margin-top: 1em;
 }
 
 /* blockquote, pre, code */
@@ -110,6 +105,14 @@ td.end-date::after {
   content: ":\00a0";
 }
 
+/* sections */
+section,
+header,
+footer {
+    margin-bottom: 1em;
+    margin-top: 2em;
+}
+
 /* headers */
 h1,
 h2,
@@ -119,7 +122,6 @@ h5,
 h6 {
   color: #900;
   margin-bottom: 1em;
-  margin-top: 2em;
 }
 h1 code,
 h2 code,
@@ -200,4 +202,17 @@ a::after {
   .printonly {
     display: unset;
   }
+}
+
+header > h1 {
+    margin-bottom: 0;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between
+}
+
+section#links a {
+    display: block;
 }
