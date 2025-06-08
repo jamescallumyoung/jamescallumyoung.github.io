@@ -38,13 +38,15 @@ a {
 
 /* body */
 body {
+  background-color: #000000;
+  color: #cccccc;
+  margin: 0em auto;
   width: 80ex;
-  margin: 1em auto;
 }
 @media print {
   body {
+    font-size: 12pt;
     width: auto;
-    font-size: 10pt;
   }
 }
 
@@ -62,11 +64,6 @@ body {
 /* small text */
 .sm {
   font-size: 85%;
-}
-
-/* smaller header top margin */
-.smh {
-  margin-top: 1em;
 }
 
 /* blockquote, pre, code */
@@ -87,13 +84,13 @@ ul li::before {
   content: "*\00a0 ";
   display: block;
   margin-left: -3ex;
-  color: #fb0;
+  color: #6699cc;
   float: left;
 }
 tr::before {
   content: "*\00a0 ";
   display: block;
-  color: #fb0;
+  color: #6699cc;
   float: left;
 }
 tr {
@@ -110,6 +107,14 @@ td.end-date::after {
   content: ":\00a0";
 }
 
+/* sections */
+section,
+header,
+footer {
+    margin-bottom: 1em;
+    margin-top: 2em;
+}
+
 /* headers */
 h1,
 h2,
@@ -117,25 +122,16 @@ h3,
 h4,
 h5,
 h6 {
-  color: #900;
+  color: #66cccc;
   margin-bottom: 1em;
-  margin-top: 2em;
-}
-h1 code,
-h2 code,
-h3 code,
-h4 code,
-h5 code,
-h6 code {
-  background: #fff;
 }
 h1::before {
-  content: "# ";
   color: #09a;
+  content: "# ";
 }
 h2::before {
-  content: "## ";
   color: #09a;
+  content: "## ";
 }
 /*h3::before { content: "### "; color:#09a }*/
 /*h4::before { content: "#### "; color:#09a }*/
@@ -144,6 +140,7 @@ h2::before {
 
 /* links */
 a {
+  color: #99cc99;
   text-decoration: none;
 }
 a::before {
@@ -157,47 +154,21 @@ a::after {
   display: none;
 }
 
-@media screen and (prefers-color-scheme: dark) {
-  body {
-    color: #cccccc;
-    background-color: #000000;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: #66cccc;
-  }
-  ul li::before,
-  tr::before {
-    color: #6699cc;
-  }
-  a {
-    color: #99cc99;
-  }
+/* section-specific style */
+
+header > h1 {
+    margin-bottom: 0;
 }
 
-@media print {
-  a.donotprint::before {
-    content: none;
-  }
-  a.donotprint::after {
-    content: none;
-  }
-  a.donotprint {
-    color: unset;
-  }
+.flex-between {
+    display: flex;
+    justify-content: space-between
+}
 
-  a.printable::before {
-    content: "[";
-  }
-  a[href].printable::after {
-    content: "](" attr(href) ")";
-  }
+section#links a {
+    display: block;
+}
 
-  .printonly {
-    display: unset;
-  }
+section#links {
+    margin-top: 0;
 }

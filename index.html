@@ -29,25 +29,38 @@
   <base target="_blank" />
 </head>
 <body>
-  <h1 id="name">James Young</h1>
+  <header class="flex-between">
+    <h1 id="name">James Young</h1>
+    <span>
+      <a rel="canonical" href="https://jamesyoung.ch" type="text/html">HTTPS</a>
+      <a rel="alternate" href="ipns://jamesyoung.ch" type="text/html">IPFS</a>
+    </span>
+  </header>
 
-  <a rel="me" href="mailto:hello@jamesyoung.ch">hello@jamesyoung.ch</a> <br />
-  <a rel="me" class="sm" href="publickey.asc">PGP Public Key</a>
+  <section id="links">
+    <a rel="me" href="mailto:hello@jamesyoung.ch" type="">hello@jamesyoung.ch</a>
+    <a rel="me" href="publickey.asc" type="application/pgp-keys">PGP Public Key</a>
+  </section>
 
+  <section id="about">
   <h2 id="about">About</h2>
   <ul>
     <li>Senior Software Engineer.</li>
     <li>From Yorkshire, UK.</li>
     <li>Lives in Zurich, Switzerland.</li>
   </ul>
+  </section>
 
+  <section id="what-i-do">
   <h2 id="what">What I Do</h2>
   <ul>
     <li>Programming <a rel="me" href="https://github.com/jamescallumyoung">GitHub</a> <a rel="me" href="https://www.npmjs.com/~jych">NPM</a>.</li>
     <li>Tabletop gaming, Boardgames, D&D.</li>
     <li>Other nerdy stuff.</li>
   </ul>
+  </section>
 
+  <section id="work-history">
   <h2 id="work">Work</h2>
   <table>
     <tr>
@@ -86,8 +99,10 @@
       <td class="fold">Teaching Assistant, University of Northampton</td>
     </tr>
   </table>
+  </section>
 
-  <h2 id="school" class="smh">Education</h2>
+  <section id="education">
+  <h2 id="education">Education</h2>
   <ul>
     <li>
       University of Northampton<br />
@@ -100,7 +115,9 @@
       Graduated with Distinction-Merit
     </li>
   </ul>
+  </section>
 
-  <br />
+  <footer>
   <p>More info on <a rel="me" href="https://linkedin.com/in/jamescallumyoung">LinkedIn</a>.</p>
+  </footer>
 </body>
