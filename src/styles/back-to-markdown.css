@@ -38,13 +38,15 @@ a {
 
 /* body */
 body {
-  width: 80ex;
+  background-color: #000000;
+  color: #cccccc;
   margin: 0em auto;
+  width: 80ex;
 }
 @media print {
   body {
+    font-size: 12pt;
     width: auto;
-    font-size: 10pt;
   }
 }
 
@@ -82,13 +84,13 @@ ul li::before {
   content: "*\00a0 ";
   display: block;
   margin-left: -3ex;
-  color: #fb0;
+  color: #6699cc;
   float: left;
 }
 tr::before {
   content: "*\00a0 ";
   display: block;
-  color: #fb0;
+  color: #6699cc;
   float: left;
 }
 tr {
@@ -120,24 +122,16 @@ h3,
 h4,
 h5,
 h6 {
-  color: #900;
+  color: #66cccc;
   margin-bottom: 1em;
 }
-h1 code,
-h2 code,
-h3 code,
-h4 code,
-h5 code,
-h6 code {
-  background: #fff;
-}
 h1::before {
-  content: "# ";
   color: #09a;
+  content: "# ";
 }
 h2::before {
-  content: "## ";
   color: #09a;
+  content: "## ";
 }
 /*h3::before { content: "### "; color:#09a }*/
 /*h4::before { content: "#### "; color:#09a }*/
@@ -146,6 +140,7 @@ h2::before {
 
 /* links */
 a {
+  color: #99cc99;
   text-decoration: none;
 }
 a::before {
@@ -159,50 +154,7 @@ a::after {
   display: none;
 }
 
-@media screen and (prefers-color-scheme: dark) {
-  body {
-    color: #cccccc;
-    background-color: #000000;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: #66cccc;
-  }
-  ul li::before,
-  tr::before {
-    color: #6699cc;
-  }
-  a {
-    color: #99cc99;
-  }
-}
-
-@media print {
-  a.donotprint::before {
-    content: none;
-  }
-  a.donotprint::after {
-    content: none;
-  }
-  a.donotprint {
-    color: unset;
-  }
-
-  a.printable::before {
-    content: "[";
-  }
-  a[href].printable::after {
-    content: "](" attr(href) ")";
-  }
-
-  .printonly {
-    display: unset;
-  }
-}
+/* section-specific style */
 
 header > h1 {
     margin-bottom: 0;
@@ -215,4 +167,8 @@ header > h1 {
 
 section#links a {
     display: block;
+}
+
+section#links {
+    margin-top: 0;
 }
