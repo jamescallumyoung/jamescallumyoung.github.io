@@ -79,7 +79,9 @@ body {
   background-color: var(--color-bg);
   color: var(--color-fg);
   margin: 0em auto;
-  width: 80ex;
+  width: fit-content;
+  min-width: 80ex;
+  max-width: 120ex;
 }
 
 /* small text */
