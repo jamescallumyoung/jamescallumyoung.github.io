@@ -1,20 +1,30 @@
 {
   "name": "jamescallumyoung.github.io",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "repository": "git@github.com:jamescallumyoung/jamescallumyoung.github.io.git",
   "author": "James Young <hello@jamesyoung.ch>",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "mustache src/data.json src/index.mustache > src/site.html",
-    "build:prod": "mustache src/data.json src/index.mustache > src/index.html",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
     "pretty:check": "prettier --check ./src",
     "pretty:fix": "prettier --write ./src"
   },
+  "dependencies": {
+    "@webcomponents/template-shadowroot": "^0.2.1",
+    "lit": "^3.3.3"
+  },
   "devDependencies": {
-    "mustache": "^4.0.1",
-    "prettier": "^2.1.2"
+    "@lit-labs/ssr": "^4.1.0",
+    "@lit-labs/ssr-client": "^1.1.8",
+    "@lit-labs/ssr-dom-shim": "^1.6.0",
+    "esbuild": "^0.28.1",
+    "linkedom": "^0.18.13",
+    "prettier": "^2.1.2",
+    "typescript": "^7.0.2"
   },
   "packageManager": "pnpm@8.15.9+sha512.499434c9d8fdd1a2794ebf4552b3b25c0a633abcee5bb15e7b5de90f32f47b513aca98cd5cfd001c31f0db454bc3804edccd578501e4ca293a6816166bbd9f81"
 }
