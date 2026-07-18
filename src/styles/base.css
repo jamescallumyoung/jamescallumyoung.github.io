@@ -40,10 +40,17 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 * {
   font-family: monospace;
   font-size: 1em;
+  font-weight: normal;
+}
+/* Outer-document rules always win over a shadow tree's own :host rules for
+   styling the host element, regardless of specificity -- so the box-model
+   reset below deliberately excludes the custom elements, leaving each
+   component's own :host CSS as the sole authority over its margin/padding/
+   border. Resetting them here would silently clobber it. */
+*:not(page-header, link-list, content-list, list-entry) {
   border: 0;
   margin: 0;
   padding: 0;
-  font-weight: normal;
 }
 p,
 a {
@@ -52,8 +59,9 @@ a {
 
 /* custom elements have no built-in display value; give them a sane block
    default so content is still readable one-entry-per-line even with no
-   Shadow DOM support and no JS (the shadow root's own :host rule applies
-   the same value once attached, so this is inert rather than overridden) */
+   Shadow DOM support and no JS. This is the rule that actually takes
+   effect once JS/DSD is active too, per the note above -- each
+   component's own :host{display:block} is redundant with this. */
 page-header,
 link-list,
 content-list,
