@@ -10,6 +10,12 @@
       {
         "rel": "alternate",
         "title": "HTTP mirror",
+        "href": "https://jmsyng.uk",
+        "type": "text/html"
+      },
+      {
+        "rel": "alternate",
+        "title": "HTTP mirror",
         "href": "https://jamescallumyoung.com",
         "type": "text/html"
       },
@@ -55,9 +61,8 @@
     "smallLinks": []
   },
   "about": [
-    "Senior Software Engineer.",
-    "From Yorkshire, UK.",
-    "Lives in Zurich, Switzerland."
+    "Senior Software Engineer from Yorkshire.",
+    "Now living in Manchester."
   ],
   "whatIDo": [
     "Programming <a rel=\"me\" href=\"https://github.com/jamescallumyoung\">GitHub</a> <a rel=\"me\" href=\"https://www.npmjs.com/~jych\">NPM</a>.",
@@ -66,10 +71,16 @@
   ],
   "workHistory": [
     {
+      "startDate": "2025/06",
+      "endDate": "2025/12",
+      "title": "Senior Software Engineer",
+      "companyName": "Web 3 Foundation"
+    },
+    {
       "startDate": "2024/09",
       "endDate": "2024/12",
       "title": "Senior Software Engineer",
-      "companyName": "grape health"
+      "companyName": "Grape Health"
     },
     {
       "startDate": "2022/07",
@@ -111,7 +122,7 @@
     {
       "school": "University of Northampton",
       "subject": "Software Engineering",
-      "grade": "First-class honours (First, 1:1)"
+      "grade": "First-class honours"
     },
     {
       "school": "Wakefield College",
