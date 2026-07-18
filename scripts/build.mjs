@@ -65,6 +65,7 @@ const KNOWN_CUSTOM_ELEMENT_TAGS = [
   "link-list",
   "content-list",
   "list-entry",
+  "work-history-entry",
 ];
 
 // None of the components above ever read slotted/light-DOM content in

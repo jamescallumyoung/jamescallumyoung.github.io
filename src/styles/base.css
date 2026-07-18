@@ -47,7 +47,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
    reset below deliberately excludes the custom elements, leaving each
    component's own :host CSS as the sole authority over its margin/padding/
    border. Resetting them here would silently clobber it. */
-*:not(page-header, link-list, content-list, list-entry) {
+*:not(page-header, link-list, content-list, list-entry, work-history-entry) {
   border: 0;
   margin: 0;
   padding: 0;
@@ -65,7 +65,8 @@ a {
 page-header,
 link-list,
 content-list,
-list-entry {
+list-entry,
+work-history-entry {
   display: block;
 }
 
