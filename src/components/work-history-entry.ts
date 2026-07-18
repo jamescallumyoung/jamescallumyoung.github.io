@@ -6,6 +6,7 @@ import { bulletEntryStyles } from "../styles/tokens.js";
 // character 20 regardless of which date format an entry uses (some are
 // year-only, e.g. "2016").
 const DATE_FIELD_WIDTH = 7;
+const DATE_SEGMENT_WIDTH = 17; // date + space-dash-space + date
 
 // A real space would collapse in normal HTML text flow the moment it's
 // adjacent to another one, silently destroying the padding this exists to
@@ -18,20 +19,32 @@ export class WorkHistoryEntry extends LitElement {
   static properties = {
     startDate: { attribute: "start-date" },
     endDate: { attribute: "end-date" },
+    current: { type: Boolean },
     title: {},
     company: {},
   };
 
-  declare startDate: string;
+  declare startDate: string | null;
   declare endDate: string | null;
+  declare current: boolean;
   declare title: string;
   declare company: string | null;
 
+  constructor() {
+    super();
+    this.current = false;
+  }
+
   render() {
-    const start = this.startDate.padEnd(DATE_FIELD_WIDTH, NBSP);
-    const end = (this.endDate || "current").padEnd(DATE_FIELD_WIDTH, NBSP);
-    const companyText = this.company ? `, ${this.company}` : "";
-    return html`${start} - ${end}: ${this.title}${companyText}`;
+    const start = (this.startDate || "").padEnd(DATE_FIELD_WIDTH, NBSP);
+    const end = (this.endDate || (this.current && "current") || "").padEnd(DATE_FIELD_WIDTH, NBSP);
+    
+    const dateInner = `${start}${(this.endDate || this.current) ? " - " : ""}${end}`.padEnd(DATE_SEGMENT_WIDTH, NBSP);
+    const dateSegment = ((this.startDate || this.endDate) ? `${dateInner}: ` : ""); //.padEnd(DATE_SEGMENT_WIDTH+2, NBSP);
+
+    const companySegment = (this.company ? `, ${this.company}` : "");
+    
+    return html`${dateSegment}${this.title}${companySegment}`;
   }
 }
 
