@@ -59,10 +59,14 @@ a {
 
 /* custom elements have no built-in display value; give them a sane block
    default so content is still readable one-entry-per-line even with no
-   Shadow DOM support and no JS. This is the rule that actually takes
-   effect once JS/DSD is active too, per the note above -- each
-   component's own :host{display:block} is redundant with this. */
-page-header,
+   Shadow DOM support and no JS. Deliberately excludes page-header: its
+   own :host rule wants `flex`, not `block`, and per the note above an
+   outer rule always beats it regardless of specificity -- so setting
+   `block` here would permanently break page-header's layout rather than
+   just being a redundant fallback. Leaving it unset means page-header's
+   own CSS is uncontested when Shadow DOM is supported, and it falls back
+   to the browser's default (inline) only in the genuine no-Shadow-DOM
+   tier -- still readable, since <h1> has its own block default. */
 link-list,
 content-list,
 list-entry,
