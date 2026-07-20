@@ -1,0 +1,135 @@
+/*
+The ISC License
+
+Copyright (c) Isaac Z. Schlueter and Contributors
+Modifications (c) James Young
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
+
+:root {
+  --color-bg: #000000;
+  --color-fg: #cccccc;
+  --color-heading: #66cccc;
+  --color-hash: #0099aa;
+  --color-link: #99cc99;
+  --color-bullet: #6699cc;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: #ffffff;
+    --color-fg: #333333;
+    --color-heading: #1a7a7a;
+    --color-hash: #0077a3;
+    --color-link: #2f7d32;
+    --color-bullet: #336699;
+  }
+}
+
+* {
+  font-family: monospace;
+  font-size: 1em;
+  font-weight: normal;
+}
+/* Outer-document rules always win over a shadow tree's own :host rules for
+   styling the host element, regardless of specificity -- so the box-model
+   reset below deliberately excludes the custom elements, leaving each
+   component's own :host CSS as the sole authority over its margin/padding/
+   border. Resetting them here would silently clobber it. */
+*:not(page-header, link-list, content-list, list-entry, work-history-entry) {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+p,
+a {
+  margin-bottom: 0.4em;
+}
+
+/* custom elements have no built-in display value; give them a sane block
+   default so content is still readable one-entry-per-line even with no
+   Shadow DOM support and no JS. Deliberately excludes page-header: its
+   own :host rule wants `flex`, not `block`, and per the note above an
+   outer rule always beats it regardless of specificity -- so setting
+   `block` here would permanently break page-header's layout rather than
+   just being a redundant fallback. Leaving it unset means page-header's
+   own CSS is uncontested when Shadow DOM is supported, and it falls back
+   to the browser's default (inline) only in the genuine no-Shadow-DOM
+   tier -- still readable, since <h1> has its own block default. */
+link-list,
+content-list,
+list-entry,
+work-history-entry {
+  display: block;
+}
+
+/* body */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  margin: 0em auto;
+  width: fit-content;
+  min-width: 80ex;
+  max-width: 120ex;
+}
+
+/* small text */
+.sm {
+  font-size: 85%;
+}
+
+/* sections */
+section,
+page-header,
+footer {
+  margin-bottom: 1em;
+  margin-top: 2em;
+}
+
+/* headers */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-heading);
+  margin-bottom: 1em;
+}
+h1::before {
+  color: var(--color-hash);
+  content: "# ";
+}
+h2::before {
+  color: var(--color-hash);
+  content: "## ";
+}
+
+/* links */
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+a::before {
+  content: "[";
+}
+a::after {
+  content: "]";
+}
+
+/* section-specific style */
+
+page-header > h1 {
+  margin-bottom: 0;
+}
