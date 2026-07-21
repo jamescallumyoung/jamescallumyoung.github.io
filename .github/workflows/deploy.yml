@@ -91,26 +91,47 @@ jobs:
         with:
           name: build-dist
           path: dist
-
-      - name: Deploy to IPFS
+      
+      - name: Create IPFS CAR
+        uses: ipshipyard/ipfs-deploy-action@v2.0.0
         id: deploy
-        uses: ipfs/ipfs-deploy-action@v1
         with:
+          path-to-deploy: 'dist'
+          cid-profile: 'unixfs-v1-2025'  # IPIP-0499; switch to 'unixfs-v0-2015' only if you need legacy CIDv0
           github-token: ${{ github.token }}
-          path-to-deploy: dist
-          # storacha
-          storacha-key: ${{ secrets.STORACHA_KEY }}
-          storacha-proof: ${{ secrets.STORACHA_PROOF }}
-          # pinate
-          pinata-jwt-token: ${{ secrets.PINATA_JWT }}
-          pinata-pinning-url: 'https://api.pinata.cloud/psa'
-          # filebase
-          filebase-bucket: 'jamesyoung-ch'
-          filebase-access-key: ${{ secrets.FILEBASE_KEY }}
-          filebase-secret-key: ${{ secrets.FILEBASE_SECRET }}
+
+      - name: Upload CAR to Pinata
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
+          CID: ${{ steps.deploy.outputs.cid }}
+          CAR_PATH: ${{ steps.deploy.outputs.car-path }}
+        run: |
+          PIN_NAME="${GITHUB_REPOSITORY//\//-}-${GITHUB_SHA:0:7}"
+
+          response=$(curl -sS -w "\n%{http_code}" -X POST \
+            "https://uploads.pinata.cloud/v3/files" \
+            -H "Authorization: Bearer ${PINATA_JWT}" \
+            -F "network=public" \
+            -F "file=@${CAR_PATH}" \
+            -F "name=${PIN_NAME}" \
+            -F "car=true")
+
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+
+          if [ "$http_code" != "200" ]; then
+            echo "::error::Pinata upload failed (HTTP $http_code): $body"
+            exit 1
+          fi
+
+          returned_cid=$(echo "$body" | jq -r '.data.cid')
+          if [ "$returned_cid" != "$CID" ]; then
+            echo "::warning::Pinata returned CID $returned_cid, expected $CID"
+          fi
+          echo "Uploaded CAR to Pinata as ${PIN_NAME} (CID ${returned_cid})"
 
       - name: Update DNSLink Record in Cloudflare DNS
-        uses: ipfs/dnslink-action@v0.1
+        uses: ipshipyard/dnslink-action@v1.1.3
         with:
           github_token: ${{ github.token }}
           cid: ${{ steps.deploy.outputs.cid }} # The `_dnslink=...` string is automatically constructed from the CID
