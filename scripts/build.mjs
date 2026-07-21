@@ -137,6 +137,10 @@ await fs.copyFile(
   path.join(srcDir, "publickey.asc"),
   path.join(distDir, "publickey.asc"),
 );
+await fs.copyFile(
+  path.join(srcDir, "favicon.ico"),
+  path.join(distDir, "favicon.ico"),
+);
 await fs.copyFile(path.join(rootDir, "CNAME"), path.join(distDir, "CNAME"));
 
 await fs.rm(ssrTmpDir, { recursive: true, force: true });
