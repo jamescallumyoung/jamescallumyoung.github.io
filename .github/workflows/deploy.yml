@@ -1,10 +1,7 @@
 # This action requires the following secrets to be set:
 #   github.token - set by GH
-#   STORACHA_KEY - created by `w3 key create --json`
-#   STORACHA_PROOF - created by `w3 delegation create --base64`
 #   PINATA_JWT - exported as a JWT from the Pinata dashboard
-#   FILEBASE_KEY - exported from the Filebase dashboard
-#   FILEBASE_SECRET - as above
+#   IPFS_NINJA_API_KEY - created in the API Keys section of the ipfs.ninja dashboard
 #   CLOUDFLARE_DNS_RECORD_ID - Cloudflare assigns an ID to every DNS record. copied from the Cloudflare API
 #   CLOUDFLARE_ZONE_ID - Cloudflare refers to each domain as a "Zone". They are assigned IDs by Cloudflare. copied from the Cloudflare dashboard
 #   CLOUDFLARE_AUTH_TOKEN - an API Token with the scope dns:edit for the jamesyoung.ch Zone. copied from the Cloudflare dashboard
@@ -42,11 +39,12 @@ jobs:
       - name: Build
         run: pnpm run build
 
+        #  POSSIBLY UNNEEDED
       # This step adds some random noise to a file in Dist.
       # Pinata fails if the upload is identical to an existing upload.
       # The added noise makes each build unique.
-      - name: Add Noise to Dist
-        run: dd if=/dev/urandom of=dist/noise bs=200 count=1
+      # - name: Add Noise to Dist
+      #   run: dd if=/dev/urandom of=dist/noise bs=200 count=1
 
       - uses: actions/upload-artifact@v4
         with:
@@ -94,47 +92,95 @@ jobs:
       
       - name: Create IPFS CAR
         uses: ipshipyard/ipfs-deploy-action@v2.0.0
-        id: deploy
+        id: create-car
         with:
           path-to-deploy: 'dist'
           cid-profile: 'unixfs-v1-2025'  # IPIP-0499; switch to 'unixfs-v0-2015' only if you need legacy CIDv0
           github-token: ${{ github.token }}
 
-      - name: Upload CAR to Pinata
+      - name: Upload CAR to ipfs.ninja
+        id: upload-ipfs-ninja
         env:
-          PINATA_JWT: ${{ secrets.PINATA_JWT }}
-          CID: ${{ steps.deploy.outputs.cid }}
-          CAR_PATH: ${{ steps.deploy.outputs.car-path }}
+          IPFS_NINJA_API_KEY: ${{ secrets.IPFS_NINJA_API_KEY }}
+          CID: ${{ steps.create-car.outputs.cid }}
+          CAR_PATH: ${{ steps.create-car.outputs.car-path }}
         run: |
-          PIN_NAME="${GITHUB_REPOSITORY//\//-}-${GITHUB_SHA:0:7}"
+          # Our CAR could end up over the 7MB simple-upload limit, so always
+          # use ipfs.ninja's presigned-URL flow (works up to 5GB):
+          # https://ipfs.ninja/docs/api/large-uploads
+          size_bytes=$(stat -c%s "$CAR_PATH")
+          size_mb=$(awk "BEGIN { printf \"%.6f\", $size_bytes / 1000000 }")
+          description="${GITHUB_REPOSITORY}@${GITHUB_SHA}"
+          content_type="application/vnd.ipld.car"
 
-          response=$(curl -sS -w "\n%{http_code}" -X POST \
-            "https://uploads.pinata.cloud/v3/files" \
-            -H "Authorization: Bearer ${PINATA_JWT}" \
-            -F "network=public" \
-            -F "file=@${CAR_PATH}" \
-            -F "name=${PIN_NAME}" \
-            -F "car=true")
+          # 1. Initialize the upload and get a presigned S3 URL.
+          init_response=$(curl -sS -w "\n%{http_code}" -X POST \
+            "https://api.ipfs.ninja/upload/init" \
+            -H "X-Api-Key: ${IPFS_NINJA_API_KEY}" \
+            -H "Content-Type: application/json" \
+            --data "$(jq -n \
+              --argjson sizeMB "$size_mb" \
+              --arg contentType "$content_type" \
+              --arg description "$description" \
+              '{sizeMB: $sizeMB, contentType: $contentType, description: $description, car: true}')")
 
-          http_code=$(echo "$response" | tail -n1)
-          body=$(echo "$response" | sed '$d')
+          init_http_code=$(echo "$init_response" | tail -n1)
+          init_body=$(echo "$init_response" | sed '$d')
 
-          if [ "$http_code" != "200" ]; then
-            echo "::error::Pinata upload failed (HTTP $http_code): $body"
+          if [ "$init_http_code" != "200" ]; then
+            echo "::error::ipfs.ninja upload init failed (HTTP $init_http_code): $init_body"
             exit 1
           fi
 
-          returned_cid=$(echo "$body" | jq -r '.data.cid')
-          if [ "$returned_cid" != "$CID" ]; then
-            echo "::warning::Pinata returned CID $returned_cid, expected $CID"
+          upload_id=$(echo "$init_body" | jq -r '.uploadId')
+          upload_url=$(echo "$init_body" | jq -r '.uploadUrl')
+
+          # 2. PUT the raw CAR bytes to the presigned URL.
+          put_http_code=$(curl -sS -o /dev/null -w "%{http_code}" -X PUT \
+            "$upload_url" \
+            -H "Content-Type: ${content_type}" \
+            --data-binary "@${CAR_PATH}")
+
+          if [ "$put_http_code" -lt 200 ] || [ "$put_http_code" -ge 300 ]; then
+            echo "::error::ipfs.ninja presigned upload failed (HTTP $put_http_code)"
+            exit 1
           fi
-          echo "Uploaded CAR to Pinata as ${PIN_NAME} (CID ${returned_cid})"
+
+          # 3. Complete the upload and get back the resulting CID.
+          complete_response=$(curl -sS -w "\n%{http_code}" -X POST \
+            "https://api.ipfs.ninja/upload/complete/${upload_id}" \
+            -H "X-Api-Key: ${IPFS_NINJA_API_KEY}")
+
+          complete_http_code=$(echo "$complete_response" | tail -n1)
+          complete_body=$(echo "$complete_response" | sed '$d')
+
+          if [ "$complete_http_code" != "200" ]; then
+            echo "::error::ipfs.ninja upload complete failed (HTTP $complete_http_code): $complete_body"
+            exit 1
+          fi
+
+          returned_cid=$(echo "$complete_body" | jq -r '.cid')
+          if [ "$returned_cid" != "$CID" ]; then
+            echo "::warning::ipfs.ninja returned CID $returned_cid, expected $CID"
+          fi
+          echo "Uploaded CAR to ipfs.ninja (CID ${returned_cid})"
+      
+          # OUT-OF-SCOPE FOR NOW
+      # # Pinata's CAR upload path (v3 /files with car=true) isn't available on
+      # # the free plan, so we pin by CID, fetching the content across the network.
+      # # This requires the Pinata uploa step to come after at least one other upload.
+      # - name: Upload dist to Pinata
+      #   id: upload-pinata
+      #   env:
+      #     PINATA_JWT: ${{ secrets.PINATA_JWT }}
+      #   run: |
+      #     TODO: write a bash script to upload to pinata.cloud, re-pinning from an already on-netowrk CID
 
       - name: Update DNSLink Record in Cloudflare DNS
         uses: ipshipyard/dnslink-action@v1.1.3
         with:
           github_token: ${{ github.token }}
-          cid: ${{ steps.deploy.outputs.cid }} # The `_dnslink=...` string is automatically constructed from the CID
+          cid: ${{ steps.create-car.outputs.cid }} # The `_dnslink=...` string is automatically constructed from the CID
           dnslink_domain: 'jamesyoung.ch'
           cf_record_id: ${{ secrets.CLOUDFLARE_DNS_RECORD_ID }}
           cf_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
