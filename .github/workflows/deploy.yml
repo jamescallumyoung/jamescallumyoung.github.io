@@ -165,16 +165,50 @@ jobs:
           fi
           echo "Uploaded CAR to ipfs.ninja (CID ${returned_cid})"
       
-          # OUT-OF-SCOPE FOR NOW
-      # # Pinata's CAR upload path (v3 /files with car=true) isn't available on
-      # # the free plan, so we pin by CID, fetching the content across the network.
-      # # This requires the Pinata uploa step to come after at least one other upload.
-      # - name: Upload dist to Pinata
-      #   id: upload-pinata
-      #   env:
-      #     PINATA_JWT: ${{ secrets.PINATA_JWT }}
-      #   run: |
-      #     TODO: write a bash script to upload to pinata.cloud, re-pinning from an already on-netowrk CID
+      # Pinata's CAR upload path (v3 /files with car=true) isn't available on
+      # the free plan, and the v3 API doesn't support folder uploads at all
+      # yet. Pin-by-CID (fetching the content over the network) works, but
+      # Pinata has to discover it via the DHT first, which can be slow or
+      # flaky for a small/newer pinning host. Uploading directly through the
+      # legacy pinFileToIPFS endpoint means Pinata serves the content itself
+      # immediately, so DNSLink propagates faster.
+      - name: Upload dist to Pinata
+        id: upload-pinata
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
+          CID: ${{ steps.create-car.outputs.cid }}
+        run: |
+          PIN_NAME="${GITHUB_REPOSITORY//\//-}-${GITHUB_SHA:0:7}"
+
+          # curl's -K config file takes one "form" line per file, which lets
+          # us upload every file in dist/ as its own multipart part without
+          # needing shell arrays. Each file's path relative to dist/ is sent
+          # as its filename so Pinata reassembles the same directory layout.
+          curl_config=$(mktemp)
+          find dist -type f | while read -r file; do
+            printf 'form = "file=@%s;filename=%s"\n' "$file" "${file#dist/}" >> "$curl_config"
+          done
+          printf 'form = "pinataMetadata={\\"name\\":\\"%s\\"}"\n' "$PIN_NAME" >> "$curl_config"
+          printf 'form = "pinataOptions={\\"cidVersion\\":1}"\n' >> "$curl_config"
+
+          response=$(curl -sS -w "\n%{http_code}" -X POST \
+            "https://api.pinata.cloud/pinning/pinFileToIPFS" \
+            -H "Authorization: Bearer ${PINATA_JWT}" \
+            -K "$curl_config")
+
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+
+          if [ "$http_code" != "200" ]; then
+            echo "::error::Pinata upload failed (HTTP $http_code): $body"
+            exit 1
+          fi
+
+          returned_cid=$(echo "$body" | jq -r '.IpfsHash')
+          if [ "$returned_cid" != "$CID" ]; then
+            echo "::warning::Pinata returned CID $returned_cid, expected $CID"
+          fi
+          echo "Uploaded dist/ to Pinata (CID ${returned_cid})"
 
       - name: Update DNSLink Record in Cloudflare DNS
         uses: ipshipyard/dnslink-action@v1.1.3
