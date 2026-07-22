@@ -17,15 +17,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4 # pnpm version is read from package.json
+        uses: pnpm/action-setup@v6 # pnpm version is read from package.json
 
       - name: Install Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "24"
           cache: 'pnpm'
@@ -46,7 +46,7 @@ jobs:
       # - name: Add Noise to Dist
       #   run: dd if=/dev/urandom of=dist/noise bs=200 count=1
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: build-dist
           path: dist
@@ -58,11 +58,11 @@ jobs:
       - build
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: build-dist
           path: dist
@@ -75,17 +75,19 @@ jobs:
           FOLDER: dist # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch.
 
-  deploy-ipfs:
+  create-ipfs-car:
     runs-on: ubuntu-latest
     needs:
       - build
+    outputs:
+      cid: ${{ steps.create-car.outputs.cid }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: build-dist
           path: dist
@@ -97,14 +99,37 @@ jobs:
           path-to-deploy: 'dist'
           cid-profile: 'unixfs-v1-2025'  # IPIP-0499; switch to 'unixfs-v0-2015' only if you need legacy CIDv0
           github-token: ${{ github.token }}
+      
+      - uses: actions/upload-artifact@v7
+        with:
+          name: build-car
+          path: ${{ steps.create-car.outputs.car-path }}
+          retention-days: 1
+  
+  upload-ipfs-ninja:
+    runs-on: ubuntu-latest
+    needs:
+      - create-ipfs-car
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: build-car
+          path: car
 
       - name: Upload CAR to ipfs.ninja
         id: upload-ipfs-ninja
         env:
           IPFS_NINJA_API_KEY: ${{ secrets.IPFS_NINJA_API_KEY }}
-          CID: ${{ steps.create-car.outputs.cid }}
-          CAR_PATH: ${{ steps.create-car.outputs.car-path }}
+          CID: ${{ needs.create-ipfs-car.outputs.cid }}
         run: |
+          # get the path to the CAR file in the car directory
+          CAR_PATH=$(find car -type f)
+
           # Our CAR could end up over the 7MB simple-upload limit, so always
           # use ipfs.ninja's presigned-URL flow (works up to 5GB):
           # https://ipfs.ninja/docs/api/large-uploads
@@ -164,7 +189,23 @@ jobs:
             echo "::warning::ipfs.ninja returned CID $returned_cid, expected $CID"
           fi
           echo "Uploaded CAR to ipfs.ninja (CID ${returned_cid})"
-      
+
+  upload-pinata:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - create-ipfs-car
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: build-dist
+          path: dist
+
       # Pinata's CAR upload path (v3 /files with car=true) isn't available on
       # the free plan, and the v3 API doesn't support folder uploads at all
       # yet. Pin-by-CID (fetching the content over the network) works, but
@@ -176,7 +217,7 @@ jobs:
         id: upload-pinata
         env:
           PINATA_JWT: ${{ secrets.PINATA_JWT }}
-          CID: ${{ steps.create-car.outputs.cid }}
+          CID: ${{ needs.create-ipfs-car.outputs.cid }}
         run: |
           PIN_NAME="${GITHUB_REPOSITORY//\//-}-${GITHUB_SHA:0:7}"
 
@@ -210,11 +251,28 @@ jobs:
           fi
           echo "Uploaded dist/ to Pinata (CID ${returned_cid})"
 
+  update-ipns-dnslink:
+    runs-on: ubuntu-latest
+    needs:
+      - create-ipfs-car
+      - upload-ipfs-ninja
+      - upload-pinata
+    # `needs` waits for all three regardless; `always()` stops GitHub from
+    # auto-skipping this job just because one of the two uploads failed, so
+    # only the explicit condition below decides whether to run.
+    #
+    # We want either of the uploads to succeed, as we need the CID to exist in
+    # the IPFS network.
+    if: |
+      always() &&
+      needs.create-ipfs-car.result == 'success' &&
+      (needs.upload-ipfs-ninja.result == 'success' || needs.upload-pinata.result == 'success')
+    steps:
       - name: Update DNSLink Record in Cloudflare DNS
         uses: ipshipyard/dnslink-action@v1.1.3
         with:
           github_token: ${{ github.token }}
-          cid: ${{ steps.create-car.outputs.cid }} # The `_dnslink=...` string is automatically constructed from the CID
+          cid: ${{ needs.create-ipfs-car.outputs.cid }} # The `_dnslink=...` string is automatically constructed from the CID
           dnslink_domain: 'jamesyoung.ch'
           cf_record_id: ${{ secrets.CLOUDFLARE_DNS_RECORD_ID }}
           cf_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
